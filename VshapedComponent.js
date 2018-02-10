@@ -19,26 +19,27 @@ class VShapedComponent extends HTMLElement {
 }
 class VShaped {
     constructor() {
-
+        this.state = new VShapedState()
     }
     draw(context) {
         context.save()
         context.translate(size/2,3*size/4)
-        context.rotate((Math.PI/6))
         context.lineWidth = size/20
         context.lineCap = 'round'
         context.strokeStyle = '#2ecc71'
         for(var i=0; i<2; i++) {
             context.save()
-            context.scale(1-2*i,1)
+            context.save()
+            context.rotate((Math.PI/6)*this.state.scales[0])
             context.beginPath()
             context.moveTo(0,0)
             context.lineTo(0,-size/2)
             context.stroke()
+            context.restore()
             for(var j = 0; j<5 ;j++) {
                 context.save()
-                const x = ((j+1)*size/10)*Math.cos((i*2 - 1)*Math.PI/6)
-                const y = ((j+1)*size/10)*Math.sin((i*2 - 1)*Math.PI/6)
+                const x = ((j+1)*size/10)*this.state.scales[j+1]*Math.cos((i*2 - 1)*Math.PI/6 - Math.PI/2)
+                const y = ((j+1)*size/10)*Math.sin((i*2 - 1)*Math.PI/6 - Math.PI/2)
                 context.bginPath()
                 context.moveTo(0,y)
                 context.lineTo(x,y)
@@ -50,10 +51,10 @@ class VShaped {
         context.restore()
     }
     update(stopcb) {
-
+        this.state.update(stopcb)
     }
     startUpdating(startcb) {
-
+        this.state.startUpdating(startcb)
     }
 }
 class VShapedState {
