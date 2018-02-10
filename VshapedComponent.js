@@ -45,7 +45,7 @@ class VShaped {
         for(var i=0; i<2; i++) {
             context.save()
             context.save()
-            context.rotate((Math.PI/6)*this.state.scales[0])
+            context.rotate(((i*2-1)*Math.PI/6)*this.state.scales[0])
             context.beginPath()
             context.moveTo(0,0)
             context.lineTo(0,-size/2)
@@ -55,7 +55,7 @@ class VShaped {
                 context.save()
                 const x = ((j+1)*size/10)*this.state.scales[j+1]*Math.cos((i*2 - 1)*Math.PI/6 - Math.PI/2)
                 const y = ((j+1)*size/10)*Math.sin((i*2 - 1)*Math.PI/6 - Math.PI/2)
-                context.bginPath()
+                context.beginPath()
                 context.moveTo(0,y)
                 context.lineTo(x,y)
                 context.stroke()
@@ -85,7 +85,6 @@ class VShapedState {
         if(Math.abs(this.scales[this.j] - this.prevScale) > 1) {
             this.scales[this.j] = this.prevScale + this.dir
             this.dir = 0
-            this.prevScale = this.scales[this.j]
             this.j += this.jDir
             if(this.j == this.scales.length || this.j  == -1) {
                 this.jDir *= -1
