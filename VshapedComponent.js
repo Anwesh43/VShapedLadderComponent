@@ -17,3 +17,42 @@ class VShapedComponent extends HTMLElement {
         this.render()
     }
 }
+class VShaped {
+    constructor() {
+
+    }
+    draw(context) {
+        context.save()
+        context.translate(size/2,3*size/4)
+        context.rotate((Math.PI/6))
+        context.lineWidth = size/20
+        context.lineCap = 'round'
+        context.strokeStyle = '#2ecc71'
+        for(var i=0; i<2; i++) {
+            context.save()
+            context.scale(1-2*i,1)
+            context.beginPath()
+            context.moveTo(0,0)
+            context.lineTo(0,-size/2)
+            context.stroke()
+            for(var j = 0; j<5 ;j++) {
+                context.save()
+                const x = ((j+1)*size/10)*Math.cos((i*2 - 1)*Math.PI/6)
+                const y = ((j+1)*size/10)*Math.sin((i*2 - 1)*Math.PI/6)
+                context.bginPath()
+                context.moveTo(0,y)
+                context.lineTo(x,y)
+                context.stroke()
+                context.restore()
+            }
+            context.restore()
+        }
+        context.restore()
+    }
+    update(stopcb) {
+      
+    }
+    startUpdating(startcb) {
+
+    }
+}
