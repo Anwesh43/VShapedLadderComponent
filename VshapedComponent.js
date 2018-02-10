@@ -5,16 +5,31 @@ class VShapedComponent extends HTMLElement {
         this.img = document.createElement('img')
         const shadow = this.attachShadow({mode:'open'})
         shadow.appendChild(this.img)
+        this.animator = new Animator()
+        this.vShaped = new VShaped()
     }
     render() {
         const canvas = document.createElement('canvas')
-        canvas.width = w
-        canvas.height = h
+        canvas.width = size
+        canvas.height = size
         const context = canvas.getContext('2d')
+        context.fillStyle = '#212121'
+        context.fillRect(0,0,size,size)
+        this.vShaped.draw(context)
         this.img.src = canvas.toDataURL()
     }
     connectedCallback() {
         this.render()
+        this.img.onmousedown = () => {
+            this.vShaped.startUpdating(() => {
+                this.animator.start(() => {
+                    this.render()
+                    this.vShaped.update(() => {
+                        this.animator.stop()
+                    })
+                })
+            })
+        }
     }
 }
 class VShaped {
@@ -106,3 +121,4 @@ class Animator {
         }
     }
 }
+customElements.define('v-shaped-comp',VShapedComponent)
